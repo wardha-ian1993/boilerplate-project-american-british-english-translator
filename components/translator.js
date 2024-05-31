@@ -5,7 +5,6 @@ const britishOnly = require('./british-only.js')
 
 class Translator {
   americanToBritish (string) {
-    let translation = [];
     let text = string
       .slice(0, -1)
       .split(' ')
@@ -30,11 +29,7 @@ class Translator {
               : translate = title;
           };
         }
-        if (translate) {
-          return `<span class='highlight'>${translate}</span>`;
-        } else {
-          return elem;
-        }
+        return translate ? `<span class="highlight">${translate}</span>` : elem;
       })
       .join(' ') + string.slice(-1);
       
@@ -42,7 +37,7 @@ class Translator {
       const wordRegex = new RegExp(word, 'ig');
       const murica = americanOnly[word];
       if (wordRegex.test(string)) {
-        text = text.replace(wordRegex, `<span class='highlight'>${murica}</span>`);
+        text = text.replace(wordRegex, `<span class="highlight">${murica}</span>`);
       }
     }
     
@@ -52,7 +47,6 @@ class Translator {
   };
 
   britishToAmerican (string) {
-    let translation = [];
     let text = string
       .slice(0, -1)
       .split(' ')
@@ -77,11 +71,7 @@ class Translator {
               : translate = word;
           };
         }
-        if (translate) {
-          return `<span class='highlight'>${translate}</span>`;
-        } else {
-          return elem;
-        }
+        return translate ? `<span class="highlight">${translate}</span>` : elem;
       })
       .join(' ') + string.slice(-1);
       
@@ -89,7 +79,7 @@ class Translator {
       const wordRegex = new RegExp(word, 'ig');
       const british = britishOnly[word];
       if (wordRegex.test(string)) {
-        text = text.replace(wordRegex, `<span class='highlight'>${british}</span>`);
+        text = text.replace(wordRegex, `<span class="highlight">${british}</span>`);
       }
     }
     
