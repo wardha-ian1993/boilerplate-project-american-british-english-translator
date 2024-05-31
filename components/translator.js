@@ -36,7 +36,7 @@ class Translator {
           return elem;
         }
       })
-      .join(' ');
+      .join(' ') + string.slice(-1);
       
     for (let word in americanOnly) {
       const wordRegex = new RegExp(word, 'ig');
@@ -84,7 +84,7 @@ class Translator {
           return elem;
         }
       })
-      .join(' ');
+      .join(' ') + string.slice(-1);
       
     for (let word in britishOnly) {
       const wordRegex = new RegExp(word, 'ig');
