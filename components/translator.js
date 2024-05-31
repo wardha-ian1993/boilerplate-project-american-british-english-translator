@@ -42,8 +42,7 @@ class Translator {
       const wordRegex = new RegExp(word, 'ig');
       const murica = americanOnly[word];
       if (wordRegex.test(string)) {
-        text = text.replace(wordRegex, murica);
-        translation.push(murica);
+        text = text.replace(wordRegex, `<span class='highlight'>${murica}</span>`);
       }
     }
     
@@ -90,8 +89,7 @@ class Translator {
       const wordRegex = new RegExp(word, 'ig');
       const british = britishOnly[word];
       if (wordRegex.test(string)) {
-        text = text.replace(wordRegex, british);
-        translation.push(british);
+        text = text.replace(wordRegex, `<span class='highlight'>${british}</span>`);
       }
     }
     
