@@ -5,83 +5,99 @@ const britishOnly = require('./british-only.js')
 
 class Translator {
   americanToBritish (string) {
-    let translate = string
+    let translation = [];
+    let text = string
+      .slice(0, -1)
       .split(' ')
       .map(elem => {
-        if (/\:/.test(elem)) {
-          elem = elem.replace(':', '.')
+        let translate = '';
+        if (/:/.test(elem)) {
+          translate = elem.replace(':', '.')
         }
-        for (word in americanToBritishSpelling) {
+        for (let word in americanToBritishSpelling) {
+          const spelling = americanToBritishSpelling[word];
           if (elem.toLowerCase() === word) {
-            if (elem[0] === elem[0].toUpperCase()) {
-              return americanToBritishSpelling[word].slice(0, 1).toUpperCase() 
-                   + americanToBritishSpelling[word].slice(1);
-            } else {
-              return americanToBritishSpelling[word]
-            }
+            translate = elem[0] === elem[0].toUpperCase()
+              ? translate = spelling.slice(0, 1).toUpperCase() + spelling.slice(1)
+              : translate = spelling;
           };
         }
-        for (word in americanToBritishTitles) {
+        for (let word in americanToBritishTitles) {
+          const title = americanToBritishTitles[word];
           if (elem.toLowerCase() === word) {
-            if (elem[0] === elem[0].toUpperCase()) {
-              return americanToBritishTitles[word].slice(0, 1).toUpperCase() 
-                   + americanToBritishTitles[word].slice(1);
-            } else {
-              return americanToBritishTitles[word]
-            }
+            translate = elem[0] === elem[0].toUpperCase()
+              ? translate = title.slice(0, 1).toUpperCase() + title.slice(1)
+              : translate = title;
           };
         }
-        return elem;
+        if (translate) {
+          return `<span class='highlight'>${translate}</span>`;
+        } else {
+          return elem;
+        }
       })
       .join(' ');
-
-    for (word in americanOnly) {
+      
+    for (let word in americanOnly) {
       const wordRegex = new RegExp(word, 'ig');
+      const murica = americanOnly[word];
       if (wordRegex.test(string)) {
-        translate = translate.replace(wordRegex, match => americanOnly[match]);
+        text = text.replace(wordRegex, murica);
+        translation.push(murica);
       }
     }
+    
+    if (text === string) text = 'Everything looks good to me!';
 
-    return translate;
+    return { text: string, translation: text };
   };
 
   britishToAmerican (string) {
-    let translate = string
+    let translation = [];
+    let text = string
+      .slice(0, -1)
       .split(' ')
       .map(elem => {
-        if (/\d\.\d/.test(elem)) {
-          elem = elem.replace('.', ':')
+        let translate = '';
+        if (/\d+\.\d+/.test(elem)) {
+          translate = elem.replace('.', ':');
         }
-        for (word in americanToBritishSpelling) {
-          if (elem.toLowerCase() === americanToBritishSpelling[word]) {
-            if (elem[0] === elem[0].toUpperCase()) {
-              return word.slice(0, 1).toUpperCase() + word.slice(1);
-            } else {
-              return word;
-            }
+        for (let word in americanToBritishSpelling) {
+          const spelling = americanToBritishSpelling[word];
+          if (elem.toLowerCase() === spelling) {
+            translate = elem[0] === elem[0].toUpperCase()
+              ? translate = word.slice(0, 1).toUpperCase() + word.slice(1)
+              : translate = word;
           };
         }
-        for (word in americanToBritishTitles) {
-          if (elem.toLowerCase() === americanToBritishTitles[word]) {
-            if (elem[0] === elem[0].toUpperCase()) {
-              return word.slice(0, 1).toUpperCase() + word.slice(1);
-            } else {
-              return word;
-            }
+        for (let word in americanToBritishTitles) {
+          const title = americanToBritishTitles[word];
+          if (elem.toLowerCase() === title) {
+            translate = elem[0] === elem[0].toUpperCase()
+              ? translate = word.slice(0, 1).toUpperCase() + word.slice(1)
+              : translate = word;
           };
         }
-        return elem;
+        if (translate) {
+          return `<span class='highlight'>${translate}</span>`;
+        } else {
+          return elem;
+        }
       })
       .join(' ');
-
-    for (word in britishOnly) {
+      
+    for (let word in britishOnly) {
       const wordRegex = new RegExp(word, 'ig');
+      const british = britishOnly[word];
       if (wordRegex.test(string)) {
-        translate = translate.replace(wordRegex, match => britishOnly[match]);
+        text = text.replace(wordRegex, british);
+        translation.push(british);
       }
     }
-
-    return translate;
+    
+    if (text === string) text = 'Everything looks good to me!';
+    
+    return { text: string, translation: text };
   };
 
 }
