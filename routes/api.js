@@ -15,7 +15,7 @@ module.exports = function (app) {
       ].includes(locale);
 
       if (text === '') return res.json({ error: 'No text to translate' });
-      if (!text) return res.json({ error: 'Required field(s) missing' });
+      if (!text || !locale) return res.json({ error: 'Required field(s) missing' });
       if (!isLocaleValid) return res.json({ error: 'Invalid value for locale field' });
       
       let result;
